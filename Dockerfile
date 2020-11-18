@@ -1,7 +1,9 @@
 FROM phusion/baseimage:master-amd64
 MAINTAINER skysider <skysider@163.com>
 
-COPY sources.list /etc/apt/sources.list
+ENV DEBIAN_FRONTEND noninteractive
+
+ENV TZ Asia/Shanghai
 
 RUN dpkg --add-architecture i386 && \
     apt-get -y update && \
@@ -28,7 +30,6 @@ RUN dpkg --add-architecture i386 && \
     ltrace \
     nasm \
     wget \
-    radare2 \
     gdb \
     gdb-multiarch \
     netcat \
@@ -38,8 +39,15 @@ RUN dpkg --add-architecture i386 && \
     gawk \
     file \
     python3-distutils \
-    bison --fix-missing && \
+    bison \
+    tzdata --fix-missing && \
     rm -rf /var/lib/apt/list/*
+
+RUN ln -fs /usr/share/zoneinfo/$TZ /etc/localtime && \
+    dpkg-reconfigure -f noninteractive tzdata
+    
+RUN wget https://github.com/radareorg/radare2/releases/download/4.4.0/radare2_4.4.0_amd64.deb && \
+    dpkg -i radare2_4.4.0_amd64.deb && rm radare2_4.4.0_amd64.deb
 
 RUN python3 -m pip install -U pip && \
     python3 -m pip install --no-cache-dir \
@@ -53,7 +61,8 @@ RUN python3 -m pip install -U pip && \
     keystone-engine \
     capstone \
     angr \
-    pebble
+    pebble \
+    r2pipe
 
 RUN gem install one_gadget seccomp-tools && rm -rf /var/lib/gems/2.*/cache/*
 
@@ -87,8 +96,8 @@ COPY --from=skysider/glibc_builder32:2.29 /glibc/2.29/32 /glibc/2.29/32
 COPY --from=skysider/glibc_builder64:2.30 /glibc/2.30/64 /glibc/2.30/64
 COPY --from=skysider/glibc_builder32:2.30 /glibc/2.30/32 /glibc/2.30/32
 
-COPY --from=skysider/glibc_builder64:2.31 /glibc/2.31/64 /glibc/2.31/64
-COPY --from=skysider/glibc_builder32:2.31 /glibc/2.31/32 /glibc/2.31/32
+COPY --from=skysider/glibc_builder64:2.27 /glibc/2.27/64 /glibc/2.27/64
+COPY --from=skysider/glibc_builder32:2.27 /glibc/2.27/32 /glibc/2.27/32
 
 COPY linux_server linux_server64  /ctf/
 
