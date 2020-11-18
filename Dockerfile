@@ -1,4 +1,4 @@
-FROM phusion/baseimage:master-amd64
+FROM ubuntu:20.04
 MAINTAINER skysider <skysider@163.com>
 
 ENV DEBIAN_FRONTEND noninteractive
