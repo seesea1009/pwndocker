@@ -99,8 +99,9 @@ root@pwn:/ctf/work# /glibc/2.28/64/ld-2.28.so /bin/ls -l /
 ```
 
 ### ChangeLog
-#### 2020-09-06
-update base image to 20.04(glibc 2.31) and add glibc 2.27
+
+#### 2020-11-19
+change base image to ubuntu:18.04
 
 #### 2020-05-22
 update radare2 to version 4.4.0 and add r2pipe python binding
