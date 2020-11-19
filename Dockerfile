@@ -38,7 +38,7 @@ RUN dpkg --add-architecture i386 && \
     patchelf \
     gawk \
     file \
-    python3-distutils \
+    python3-distutils-extra \
     bison \
     tzdata --fix-missing && \
     rm -rf /var/lib/apt/list/*
@@ -56,15 +56,15 @@ RUN python3 -m pip install -U pip && \
     z3-solver \
     smmap2 \
     apscheduler \
-    ropper \
+    #ropper \
     unicorn \
     keystone-engine \
     capstone \
-    angr \
-    pebble \
-    r2pipe
+    #angr \
+    pebble
+    #r2pipe
 
-RUN gem install one_gadget seccomp-tools && rm -rf /var/lib/gems/2.*/cache/*
+RUN gem install one_gadget && rm -rf /var/lib/gems/2.*/cache/*
 
 RUN git clone --depth 1 https://github.com/pwndbg/pwndbg && \
     cd pwndbg && chmod +x setup.sh && ./setup.sh
