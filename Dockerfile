@@ -1,4 +1,4 @@
-FROM ubuntu:16.04
+FROM ubuntu:14.04
 MAINTAINER skysider <skysider@163.com>
 
 ENV DEBIAN_FRONTEND noninteractive
